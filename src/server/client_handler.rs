@@ -1,7 +1,9 @@
-use std::net::TcpListener;
+use std::net::TcpStream;
 use std::io::{Read, Write};
 use super::send_msg;
-fn clienthandler(mut socket :TcpListener) -> std::io::Result<()> {
-    loop
-
+fn clienthandler(mut socket :TcpStream) -> std::io::Result<()> {
+    loop{
+        
+    }
+    Ok(())
 }
