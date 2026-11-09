@@ -16,20 +16,20 @@ fn main() -> std::io::Result<()> {
         catch_message::catch_message(&mut stream_read, &disconnected_tx);
     });
     loop{
-    match disconnected_rx.try_recv() {
-    Ok(()) => {println!("Поток приёма сообщил об отключении");
-    break;
-},
-    Err(error) => eprintln!("Не удалось получить сигнал: {error}"),
-}
-let mut message = String::new();
-io::stdin().read_line(&mut message)?;
-message = message.trim_end().to_string();
-send_msg::clienthandler(&mut stream, &mut message);
-}
-        if reader_handle.join().is_err() {
-    eprintln!("Поток приёма завершился с паникой");
-}
+        match disconnected_rx.try_recv() {
+            Ok(()) => {println!("Поток приёма сообщил об отключении");
+            break;
+        },
+        Err(error) => eprintln!("Не удалось получить сигнал: {error}"),
+    }
+    let mut message = String::new();
+    io::stdin().read_line(&mut message)?;
+    message = message.trim_end().to_string();
+    send_msg::clienthandler(&mut stream, &mut message);
+    }
+    if reader_handle.join().is_err() {
+        eprintln!("Поток приёма завершился с паникой");
+    }
     Ok(())
 }
 

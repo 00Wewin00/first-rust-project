@@ -1,10 +1,9 @@
 use std::net::TcpStream;
-use std::io::{Read, Write};
 use std::sync::mpsc::Sender;
 use super::read_msg::read_msg;
 use super::types::RecvStatus::Success;
 pub fn catch_message(stream:&mut TcpStream,disconnected_tx :& Sender<()>){
-    let mut msg_byte :Vec<u8>= Vec::new();
+    let mut msg_byte :Vec<u8>;
     loop{
     match read_msg(stream){
         Success(n)=>{

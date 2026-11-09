@@ -1,5 +1,5 @@
 use std::net::TcpStream;
-use std::io::{Read};
+use std::io::{Read,Write};
 use crate::types::{self, RecvStatus};
 pub fn read_msg(stream:&mut TcpStream)-> RecvStatus{
     let mut buffer_size_bytes = [0u8;4];
@@ -23,4 +23,12 @@ pub fn read_msg(stream:&mut TcpStream)-> RecvStatus{
                 return types::RecvStatus::ClientDisconnected;
             }
         }
+}
+pub fn send_message(stream:& mut TcpStream,message :&mut String) -> std::io::Result<()> {
+    let message_lenght_usize = message.len();
+    let message_lenght_size = message_lenght_usize as u32;
+    let size_bytes =message_lenght_size.to_be_bytes();
+    stream.write_all(&size_bytes)?;
+    stream.write_all(message.as_bytes())?;
+    Ok(())
 }
